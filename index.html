@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página en Construcción</title>
+    <style>
+      /* Variables de diseño */
+      :root {
+        --font-primary: 'Verdana', Geneva, Tahoma, sans-serif;
+        --container-max-width: 1200px;
+        --spacing: 16px;
+        --background-color: #f5f5f5;
+        --text-color: #333;
+      }
+
+      /* Reset y box-sizing */
+      *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: var(--background-color);
+        font-family: var(--font-primary);
+        color: var(--text-color);
+        text-align: center;
+      }
+
+      .container {
+        width: 90%;
+        max-width: var(--container-max-width);
+        padding: var(--spacing);
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        max-width: 90%;
+        width: 100%;
+        height: auto;
+        margin-bottom: var(--spacing);
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        margin-bottom: calc(var(--spacing) / 2);
+      }
+
+      p {
+        font-size: 1rem;
+        margin-bottom: var(--spacing);
+      }
+
+      /* Breakpoints */
+      @media (min-width: 600px) {
+        h1 {
+          font-size: 2rem;
+        }
+        p {
+          font-size: 1.125rem;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .container {
+          padding: calc(var(--spacing) * 2);
+        }
+        h1 {
+          font-size: 2.5rem;
+        }
+        p {
+          font-size: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img class="logo" src="/assets/imagen.png" alt="En construcción" />
+      <h1>Página en Construcción</h1>
+      <p>Estamos trabajando para ofrecerte la mejor experiencia.<br />Vuelve pronto.</p>
+    </div>
+  </body>
+</html>
