@@ -1,0 +1,581 @@
+---
+import PriceCard from "@/components/PriceCard.astro";
+import { departamentos } from "@/data/buildings";
+import { ArrowLeft, ArrowRight, PhoneCall, Download, Home, Maximize2 } from "@lucide/astro";
+
+// Agrupar departamentos por número de dormitorios
+const departamentosPorDormitorios = {
+  1: departamentos.filter(d => d.dormitorios === 1),
+  2: departamentos.filter(d => d.dormitorios === 2),
+  3: departamentos.filter(d => d.dormitorios === 3),
+};
+
+// Preparar datos para las cards de filtro
+const filtros = [
+  {
+    dormitorios: 1,
+    titulo: "1 Dormitorio",
+    area: `Desde ${departamentosPorDormitorios[1][0]?.areaAproximada || '41m²'}`,
+    cuota: departamentosPorDormitorios[1][0]?.precioDesde || 'S/1,450',
+    tipo: `${departamentosPorDormitorios[1].length} opciones`,
+  },
+  {
+    dormitorios: 2,
+    titulo: "2 Dormitorios",
+    area: `Desde ${departamentosPorDormitorios[2][0]?.areaAproximada || '52m²'}`,
+    cuota: departamentosPorDormitorios[2][0]?.precioDesde || 'S/1,825',
+    tipo: `${departamentosPorDormitorios[2].length} opciones`,
+  },
+  {
+    dormitorios: 3,
+    titulo: "3 Dormitorios",
+    area: `Desde ${departamentosPorDormitorios[3][0]?.areaAproximada || '60m²'}`,
+    cuota: departamentosPorDormitorios[3][0]?.precioDesde || 'S/2,190',
+    tipo: `${departamentosPorDormitorios[3].length} opciones`,
+  },
+];
+---
+
+<section id="proyecto" class="w-full bg-linear-to-b from-white to-gray-50 py-10 md:py-20 overflow-hidden">
+  <div class="max-w-[1200px] mx-auto px-4">
+    
+    <!-- 🏙️ Descripción con animación -->
+    <div class="text-center max-w-[900px] mx-auto mb-12 animate-fade-in">
+      <h2 class="text-3xl md:text-5xl font-bold text-[#0E9B7F] uppercase mb-4 relative inline-block">
+        Proyectos
+        <span class="absolute -bottom-2 left-0 right-0 h-1 bg-[#0E9B7F] transform scale-x-50 transition-transform duration-500 hover:scale-x-100"></span>
+      </h2>
+      <p class="text-gray-700 text-base md:text-lg leading-relaxed mt-6">
+        Proyecto multifamiliar de <strong class="text-[#0E9B7F]">PISONAY Inmobiliaria</strong>, ubicado en la
+        Av. Paseo de la República 1235-1265 La Victoria frente a Santa Beatriz.
+        Cuenta con áreas sociales como coworking, zona de parrillas, gimnasio,
+        terraza, pet zone, sala lounge y piscina. Su excelente ubicación, áreas
+        comunes y distribución lo convierten en el proyecto ideal para quienes
+        buscan un mejor estilo de vida o una inversión inteligente.
+      </p>
+    </div>
+
+    <!-- 💰 Cards de Filtro por Dormitorios -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-[800px] mx-auto mb-12 animate-slide-up">
+      {filtros.map((filtro, index) => (
+        <div 
+          class="filter-card bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-transparent hover:border-[#0E9B7F] group"
+          data-dormitorios={filtro.dormitorios}
+          style={`animation-delay: ${index * 100}ms`}
+        >
+          <div class="flex items-center justify-between mb-3">
+            <div class="bg-[#0E9B7F]/10 p-3 rounded-full group-hover:bg-[#0E9B7F] transition-colors duration-300">
+              <Home class="w-6 h-6 text-[#0E9B7F] group-hover:text-white transition-colors duration-300" />
+            </div>
+            <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{filtro.tipo}</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-1">{filtro.titulo}</h3>
+          <p class="text-gray-600 text-sm mb-3">{filtro.area}</p>
+          <div class="border-t pt-3">
+            <p class="text-xs text-gray-500 mb-1">Desde</p>
+            <p class="text-2xl font-bold text-[#0E9B7F]">{filtro.cuota}<span class="text-sm font-normal">/mes</span></p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- 🏢 Carrusel de Proyectos -->
+    <div class="relative mt-10 mb-12">
+      <!-- Contenedor del carrusel -->
+      <div id="carousel-container" class="relative rounded-3xl overflow-hidden shadow-2xl">
+        <div id="carousel-track" class="flex transition-transform duration-700 ease-out">
+          {departamentos.map((depto, index) => (
+            <div class="carousel-slide min-w-full" data-dormitorios={depto.dormitorios}>
+              <div class="grid grid-cols-1 lg:grid-cols-5 gap-0 bg-white">
+                
+                <!-- Información del departamento -->
+                <div class="lg:col-span-2 p-6 md:p-10 flex flex-col justify-center bg-gradient-to-br from-[#0E9B7F] to-[#0d8068] rounded-br-[60px] md:rounded-br-[100px] relative overflow-hidden">
+                  
+                  {/* Patrón decorativo de fondo */}
+                  <div class="absolute inset-0 opacity-5">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-32 translate-x-32"></div>
+                    <div class="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-24 -translate-x-24"></div>
+                  </div>
+
+                  <div class="relative z-10">
+                    {/* Badge de estado */}
+                    <span class="inline-block bg-[#D9001B] text-white font-bold uppercase text-xs md:text-sm px-4 py-2 rounded-full mb-4 shadow-lg animate-pulse-slow">
+                      ¡Ya iniciamos obra!
+                    </span>
+                    
+                    {/* Título principal */}
+                    <h3 class="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
+                      {depto.tipo}
+                    </h3>
+                    
+                    {/* Tipo */}
+                    <div class="inline-block bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg mb-4">
+                      <p class="text-lg md:text-xl font-bold text-white">{depto.dormitorios} Dormitorio{depto.dormitorios > 1 ? 's' : ''}</p>
+                    </div>
+                    
+                    {/* Área */}
+                    <div class="mb-6">
+                      <p class="text-white/90 text-sm md:text-base mb-2">Área aproximada:</p>
+                      <div class="flex items-end gap-2">
+                        <span class="text-6xl md:text-7xl font-black text-white leading-none">{depto.areaAproximada.replace('mt²', '').replace('m²', '')}</span>
+                        <span class="text-3xl font-bold text-white/80 mb-2">m²</span>
+                      </div>
+                    </div>
+
+                    {/* Características */}
+                    <div class="space-y-2 mb-6">
+                      {depto.areas.map((area) => (
+                        <div class="flex items-center gap-2 text-white/90 text-sm">
+                          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                          </svg>
+                          <span>{area}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Card de precio integrada */}
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                      <p class="text-white/80 text-xs mb-1">Cuota mensual desde:</p>
+                      <p class="text-3xl font-bold text-white">{depto.precioDesde}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Imagen del plano -->
+                <div class="lg:col-span-3 p-6 md:p-10 flex items-center justify-center bg-gray-50">
+                  <div class="relative group">
+                    <img
+                      src={depto.imgPath}
+                      alt={`Plano de departamento ${depto.tipo}`}
+                      class="w-full max-w-[600px] rounded-2xl shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                    />
+                    
+                    {/* Botón de zoom */}
+                    <button 
+                      class="zoom-btn absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110"
+                      data-image={depto.imgPath}
+                      aria-label="Ver imagen en tamaño completo"
+                    >
+                      <Maximize2 class="w-5 h-5 text-[#0E9B7F]" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Flechas de navegación -->
+      <button
+        id="prev-btn"
+        aria-label="Anterior"
+        class="absolute -left-5 top-1/2 -translate-y-1/2 bg-white text-[#0E9B7F] p-3 md:p-4 rounded-full shadow-2xl transition-all duration-300 z-20 hover:bg-[#0E9B7F] hover:text-white hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <ArrowLeft class="w-5 h-5 md:w-6 md:h-6" />
+      </button>
+      
+      <button
+        id="next-btn"
+        aria-label="Siguiente"
+        class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white text-[#0E9B7F] p-3 md:p-4 rounded-full shadow-2xl transition-all duration-300 z-20 hover:bg-[#0E9B7F] hover:text-white hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <ArrowRight class="w-5 h-5 md:w-6 md:h-6" />
+      </button>
+
+      <!-- Indicadores de slides -->
+      <div id="slide-indicators" class="flex justify-center gap-2 mt-6">
+        <!-- Los indicadores se generarán dinámicamente con JS -->
+      </div>
+    </div>
+
+    <!-- 📞 Asesor Mejorado -->
+    <div class="flex justify-center animate-fade-in-up" style="animation-delay: 200ms;">
+      <div class="relative w-full max-w-[320px] h-[140px] flex items-center justify-center">
+        
+        <!-- Foto circular con efecto -->
+        <div class="absolute left-0 w-[130px] h-[130px] rounded-full bg-gradient-to-br from-[#0E9B7F] to-[#0d8068] p-1 z-10 shadow-2xl animate-float">
+          <div class="w-full h-full rounded-full overflow-hidden border-4 border-white">
+              <img
+              src="https://api.dicebear.com/7.x/initials/svg?seed=JM&backgroundColor=0E9B7F&textColor=ffffff"
+              alt="Asesor"
+              class="w-full h-full object-cover scale-110 hover:scale-125 transition-transform duration-500"
+            />
+          </div>
+          
+          {/* Indicador de disponibilidad */}
+          <div class="absolute bottom-2 right-2 w-6 h-6 bg-green-400 rounded-full border-4 border-white shadow-lg">
+            <span class="absolute inset-0 bg-green-400 rounded-full animate-ping"></span>
+          </div>
+        </div>
+
+        <div class="absolute right-0 flex items-center justify-end bg-linear-to-r from-[#0E9B7F] to-[#0d8068] w-[230px] h-[100px] rounded-3xl text-white shadow-2xl pl-16 pr-6 transition-all duration-300 hover:shadow-[0_10px_40px_rgba(14,155,127,0.4)] py-4">
+          <div class="flex flex-col items-start">
+            <h3 class="font-bold text-lg mb-1">Jesús Mendoza</h3>
+            <p class="text-xs text-white/80 mb-2">Asesor Inmobiliario</p>
+            <a 
+              href="https://api.whatsapp.com/send?phone=51936795272&text=Hola!%20m%C3%A0s%20info%20sobre%20departamentos%20en%20el%20edificio%20Capital%20-%20"
+              class="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full hover:bg-white/30 transition-all duration-300 group"
+            >
+              <PhoneCall class="w-4 h-4 text-white animate-ring" />
+              <div class="flex flex-col leading-tight text-xs">
+                <span class="text-white/90">Llámanos</span>
+                <strong class="text-white group-hover:scale-105 inline-block transition-transform">933 928 651</strong>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de imagen ampliada -->
+  <div id="image-modal" class="fixed inset-0 bg-black/95 backdrop-blur-sm hidden items-center justify-center z-50 opacity-0 transition-opacity duration-300">
+    <button id="close-modal" class="absolute top-6 right-6 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-all duration-300 hover:scale-110 z-10">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <img id="modal-image" src="" alt="" class="max-w-[90%] max-h-[90vh] rounded-2xl shadow-2xl" />
+  </div>
+</section>
+
+<style>
+  /* Animaciones de entrada */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes ring {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    10%, 30% {
+      transform: rotate(-15deg);
+    }
+    20%, 40% {
+      transform: rotate(15deg);
+    }
+  }
+
+  @keyframes pulseSlow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: slideUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-ring {
+    animation: ring 2s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulseSlow 2s ease-in-out infinite;
+  }
+
+  .filter-card {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .filter-card.active {
+    border-color: #0E9B7F;
+    background: linear-gradient(to bottom right, rgba(14, 155, 127, 0.05), rgba(14, 155, 127, 0.02));
+  }
+
+  /* Transición suave del carrusel */
+  #carousel-track {
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Indicador activo */
+  .slide-indicator.active {
+    background-color: #0E9B7F;
+    width: 2rem;
+  }
+
+  /* Ocultar slides no filtrados */
+  .carousel-slide.hidden-slide {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Responsive mejoras */
+  @media (max-width: 768px) {
+    .carousel-slide {
+      min-height: auto;
+    }
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+<script>
+  // Elementos del DOM
+  const track = document.getElementById('carousel-track') as HTMLElement;
+  const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+  const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+  const indicatorsContainer = document.getElementById('slide-indicators') as HTMLElement;
+  const filterCards = document.querySelectorAll('.filter-card') as NodeListOf<HTMLElement>;
+  const allSlides = document.querySelectorAll('.carousel-slide') as NodeListOf<HTMLElement>;
+  
+  // Elementos del modal
+  const imageModal = document.getElementById('image-modal') as HTMLElement;
+  const modalImage = document.getElementById('modal-image') as HTMLImageElement;
+  const closeModalBtn = document.getElementById('close-modal') as HTMLElement;
+  const zoomBtns = document.querySelectorAll('.zoom-btn') as NodeListOf<HTMLElement>;
+
+  let currentSlide = 0;
+  let filteredSlides: HTMLElement[] = [];
+  let isAnimating = false;
+  let selectedDormitorios = 1; // Por defecto 1 dormitorio
+
+  // Función para filtrar slides por número de dormitorios
+  function filterSlidesByDormitorios(dormitorios: number) {
+    selectedDormitorios = dormitorios;
+    
+    // Resetear el track
+    track.style.transform = 'translateX(0%)';
+    
+    // Filtrar y reorganizar slides
+    filteredSlides = [];
+    
+    allSlides.forEach((slide, index) => {
+      const slideDormitorios = parseInt(slide.getAttribute('data-dormitorios') || '0');
+      
+      if (slideDormitorios === dormitorios) {
+        slide.classList.remove('hidden-slide');
+        filteredSlides.push(slide);
+      } else {
+        slide.classList.add('hidden-slide');
+      }
+    });
+
+    // Reorganizar el DOM para que los slides filtrados estén en orden
+    filteredSlides.forEach((slide, index) => {
+      track.appendChild(slide);
+    });
+
+    // Actualizar indicadores
+    updateIndicators();
+
+    // Resetear al primer slide
+    currentSlide = 0;
+    updateCarousel(0, false);
+  }
+
+  // Función para actualizar los indicadores
+  function updateIndicators() {
+    indicatorsContainer.innerHTML = '';
+    
+    filteredSlides.forEach((_, index) => {
+      const indicator = document.createElement('button');
+      indicator.className = 'slide-indicator w-3 h-3 rounded-full bg-gray-300 transition-all duration-300 hover:bg-[#0E9B7F]';
+      indicator.setAttribute('data-index', index.toString());
+      indicator.setAttribute('aria-label', `Ir a departamento ${index + 1}`);
+      
+      indicator.addEventListener('click', () => {
+        updateCarousel(index);
+      });
+      
+      indicatorsContainer.appendChild(indicator);
+    });
+  }
+
+  // Función para actualizar el carrusel
+  function updateCarousel(index: number, animate = true) {
+    if (isAnimating || filteredSlides.length === 0) return;
+    
+    if (index < 0) index = 0;
+    if (index >= filteredSlides.length) index = filteredSlides.length - 1;
+    
+    if (animate) isAnimating = true;
+    
+    currentSlide = index;
+    
+    // Calcular el offset basado solo en los slides visibles
+    const offset = -currentSlide * 100;
+    track.style.transform = `translateX(${offset}%)`;
+
+    // Actualizar indicadores
+    const indicators = indicatorsContainer.querySelectorAll('.slide-indicator');
+    indicators.forEach((indicator, i) => {
+      if (i === currentSlide) {
+        indicator.classList.add('active');
+      } else {
+        indicator.classList.remove('active');
+      }
+    });
+
+    // Actualizar estado de botones
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === filteredSlides.length - 1;
+
+    if (animate) {
+      setTimeout(() => {
+        isAnimating = false;
+      }, 700);
+    }
+  }
+
+  // Navegación con botones
+  prevBtn.addEventListener('click', () => {
+    updateCarousel(currentSlide - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    updateCarousel(currentSlide + 1);
+  });
+
+  // Click en las cards de filtro
+  filterCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const dormitorios = parseInt(card.getAttribute('data-dormitorios') || '1');
+      
+      // Actualizar estado activo de las cards
+      filterCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      
+      // Filtrar slides
+      filterSlidesByDormitorios(dormitorios);
+      
+      // Scroll suave al carrusel
+      document.getElementById('carousel-container')?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+    });
+  });
+
+  // Navegación con teclado
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      updateCarousel(currentSlide - 1);
+    } else if (e.key === 'ArrowRight') {
+      updateCarousel(currentSlide + 1);
+    }
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  track.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        updateCarousel(currentSlide + 1);
+      } else {
+        updateCarousel(currentSlide - 1);
+      }
+    }
+  }
+
+  // Modal de imagen
+  zoomBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const imageSrc = btn.getAttribute('data-image');
+      if (imageSrc) {
+        modalImage.src = imageSrc;
+        imageModal.classList.remove('hidden');
+        imageModal.classList.add('flex');
+        setTimeout(() => {
+          imageModal.style.opacity = '1';
+        }, 10);
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  closeModalBtn.addEventListener('click', closeImageModal);
+  
+  imageModal.addEventListener('click', (e) => {
+    if (e.target === imageModal) {
+      closeImageModal();
+    }
+  });
+
+  function closeImageModal() {
+    imageModal.style.opacity = '0';
+    setTimeout(() => {
+      imageModal.classList.add('hidden');
+      imageModal.classList.remove('flex');
+      modalImage.src = '';
+      document.body.style.overflow = 'auto';
+    }, 300);
+  }
+
+  // Cerrar modal con ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+      closeImageModal();
+    }
+  });
+
+  // Inicializar: filtrar por 1 dormitorio y marcar la primera card como activa
+  filterCards[0].classList.add('active');
+  filterSlidesByDormitorios(1);
+</script>

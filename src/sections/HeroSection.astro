@@ -1,0 +1,118 @@
+---
+import PriceCard from "@/components/PriceCard.astro";
+import { MapPinCheckInsideIcon, Phone, User } from "@lucide/astro";
+
+/* Hero principal del proyecto Capital */
+const heroInfo = {
+  title: "Capital",
+  subtitle: "PRÓXIMO LANZAMIENTO",
+  backgroundImage: "/images/fachada_dia.png",
+  slogan: "¡Vive frente a Santa Beatriz!",
+  entrega: "Entrega Abr. 2028",
+  precios: [
+    { dptos: "01", desde: "s/1,390" },
+    { dptos: "02", desde: "s/1,850" },
+    { dptos: "03", desde: "s/2,190" },
+  ],
+  contacto: {
+    salaVentas: "Visita sala de ventas",
+    telefono: {
+      label: "Contáctanos",
+      numero: "984 928 651"
+    },
+    direccion: {
+      principal: "Av. Mariano Cornejo 1604",
+      distrito: "Cercado de Lima",
+      referencia: "Frente a Pueblo Libre"
+    }
+  }
+};
+---
+
+<section
+  id="hero"
+  class="relative w-full min-h-screen flex items-center lg:items-end overflow-hidden bg-linear-to-b from-[#7FC8F8] via-[#BFE9FF] to-white"
+>
+  <!-- Imagen principal -->
+  <img
+    src={heroInfo.backgroundImage}
+    alt="Edificio Capital fachada día"
+    class="absolute bottom-0 left-0 w-full h-auto max-h-full object-cover object-bottom z-0"
+  />
+
+  <!-- ☁️ Nubes suaves (simulación con blur) -->
+  <div class="absolute inset-0 overflow-hidden z-[1] pointer-events-none">
+    <div class="absolute top-10 left-[10%] w-[300px] h-[150px] bg-white/40 blur-3xl rounded-full"></div>
+    <div class="absolute top-[30%] right-[15%] w-[400px] h-[200px] bg-white/30 blur-3xl rounded-full"></div>
+    <div class="absolute bottom-[20%] left-[40%] w-[500px] h-[250px] bg-white/20 blur-3xl rounded-full"></div>
+  </div>
+
+  <!-- 🌞 Luz solar difusa -->
+  <div class="absolute top-[10%] right-[20%] w-[250px] h-[250px] bg-yellow-200/40 blur-[120px] rounded-full z-[1] pointer-events-none"></div>
+
+  <!-- 🖤 Overlay solo en la parte inferior -->
+  <div class="absolute bottom-0 left-0 w-full h-[60%] bg-gradient-to-t from-black/70 via-black/20 to-transparent z-[2] pointer-events-none"></div>
+
+  <!-- Contenido del hero -->
+  <div class="relative z-[3] text-white w-full max-w-[calc(100%-1rem)] sm:max-w-[620px] mx-auto sm:mx-0 sm:ml-8 md:ml-12 lg:ml-16 mb-32 sm:mb-40 md:mb-48 lg:mb-56 bg-black/30 backdrop-blur-sm p-4 sm:p-6 md:p-8 rounded-3xl sm:rounded-[40px]">
+    
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold drop-shadow-lg uppercase tracking-tight leading-tight">
+      {heroInfo.subtitle}
+    </h1>
+    
+    <div class="my-3 sm:my-4">
+      <div class="w-20 sm:w-24 md:w-28 lg:w-[100px] bg-white h-1 sm:h-1.5 md:h-2 lg:h-3"></div>
+    </div>
+    
+    <p class="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium drop-shadow-sm uppercase leading-tight">
+      {heroInfo.slogan}
+    </p>
+
+    <div class="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:gap-5 mt-4 sm:mt-5 md:mt-6">
+      {heroInfo.precios.map((p) => (
+        <PriceCard dptos={p.dptos} desde={p.desde} />
+      ))}
+    </div>
+  </div>
+
+  <!-- Footer de contacto - Centrado y en la parte inferior -->
+  <div class="absolute bottom-2 sm:bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-0.5rem)] sm:w-[calc(100%-2rem)] max-w-6xl z-[40]">
+    <div class="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border-t-4 border-white">
+      
+      <!-- Grid adaptativo para las tarjetas -->
+      <div class="grid grid-cols-1 min-[480px]:grid-cols-3 lg:grid-cols-4 divide-y min-[480px]:divide-y-0 min-[480px]:divide-x divide-gray-200">
+        
+        <!-- Tarjeta: Visita sala de ventas -->
+        <div class="bg-white text-secondary-green flex flex-row min-[480px]:flex-col lg:flex-row items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 hover:bg-gray-50 transition-colors duration-200">
+          <User class="size-6 sm:size-7 md:size-8 lg:size-10 shrink-0 text-secondary-green" />
+          <p class="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-center lg:text-left leading-tight">
+            {heroInfo.contacto.salaVentas}
+          </p>
+        </div>
+
+        <!-- Tarjeta: Contáctanos -->
+        <div class="bg-white text-secondary-green flex flex-row min-[480px]:flex-col lg:flex-row items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 hover:bg-gray-50 transition-colors duration-200">
+          <Phone class="size-6 sm:size-7 md:size-8 lg:size-10 shrink-0 text-secondary-green" />
+          <div class="text-center lg:text-left leading-tight">
+            <p class="text-[10px] sm:text-xs md:text-sm font-normal text-gray-600">{heroInfo.contacto.telefono.label}</p>
+            <p class="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-secondary-green tracking-wide">
+              {heroInfo.contacto.telefono.numero}
+            </p>
+          </div>
+        </div>
+
+        <!-- Tarjeta: Dirección -->
+        <div class="bg-secondary-green text-white min-[480px]:col-span-1 lg:col-span-2 flex flex-row min-[480px]:flex-col lg:flex-row items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 hover:bg-secondary-green/90 transition-colors duration-200">
+          <MapPinCheckInsideIcon class="size-6 sm:size-7 md:size-8 lg:size-10 shrink-0" />
+          <div class="text-center lg:text-left leading-tight">
+            <p class="text-xs sm:text-sm md:text-base lg:text-lg font-semibold">{heroInfo.contacto.direccion.principal}</p>
+            <p class="text-[10px] sm:text-xs md:text-sm opacity-90">{heroInfo.contacto.direccion.distrito}</p>
+            <p class="text-[10px] sm:text-xs opacity-80 italic">{heroInfo.contacto.direccion.referencia}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>

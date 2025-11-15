@@ -1,0 +1,137 @@
+---
+import { areasComunes } from "@/consts/areasComunes";
+import { ArrowLeft, ArrowRight } from "@lucide/astro";
+---
+
+<section
+  id="amenities-slider"
+  class="relative w-full max-w-[1400px] mx-auto overflow-hidden rounded-2xl pt-10"
+>
+  <h2 class="text-4xl md:text-5xl font-bold text-center uppercase text-secondary-green py-6">
+    Descubre Nuestras Áreas Comunes
+  </h2>
+
+  <!-- Contenedor principal -->
+  <div class="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden group">
+    <!-- Slides -->
+    <div
+      id="slides"
+      class="flex w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)]"
+      style="transform: translateX(0%);"
+    >
+      {areasComunes.map(({ name, image }) => (
+        <div class="w-full h-full flex-shrink-0 relative" data-label={name}>
+          <img
+            src={image}
+            alt={name}
+            class="w-full h-full object-cover rounded-2xl"
+            loading="lazy"
+          />
+          <div
+            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          ></div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Etiqueta del slide actual -->
+    <div
+      id="slide-label"
+      class="absolute top-4 left-1/2 -translate-x-1/2 text-white text-lg md:text-2xl font-semibold bg-black/50 px-6 py-2 rounded-full shadow-lg transition-all duration-300 backdrop-blur-md"
+      aria-live="polite"
+    ></div>
+
+    <!-- Botones -->
+    <button
+      id="prev"
+      aria-label="Anterior"
+      class="absolute top-1/2 left-3 -translate-y-1/2 bg-primary-green/40 hover:bg-primary-green/70 text-white p-3 rounded-full transition duration-300 cursor-pointer"
+      type="button"
+    >
+      <ArrowLeft class="w-6 h-6 mx-auto" />
+    </button>
+    <button
+      id="next"
+      aria-label="Siguiente"
+      class="absolute top-1/2 right-3 -translate-y-1/2 bg-primary-green/40 hover:bg-primary-green/70 text-white p-3 rounded-full transition duration-300 cursor-pointer"
+      type="button"
+    >
+      <ArrowRight class="w-6 h-6 mx-auto" />
+    </button>
+
+    <!-- Indicadores -->
+    <div id="indicators" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+      {areasComunes.map((_, i) => (
+        <button
+          class={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
+            i === 0 ? "bg-primary-green" : "bg-white/40"
+          }`}
+          type="button"
+          aria-label={`Ir al slide ${i + 1}`}
+          data-index={i}
+        ></button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const slidesEl = document.getElementById("slides") as HTMLElement;
+  const labelEl = document.getElementById("slide-label") as HTMLElement;
+  const prevBtn = document.getElementById("prev") as HTMLElement;
+  const nextBtn = document.getElementById("next") as HTMLElement;
+  const dotsWrap = document.getElementById("indicators") as HTMLElement;
+  const dots = Array.from(dotsWrap.querySelectorAll("button"));
+  const items = Array.from(slidesEl.children);
+  const total = items.length;
+
+  let current = 0;
+  let timer: string | number | NodeJS.Timeout | null | undefined = null;
+  const INTERVAL = 4000;
+
+  function setActiveDot(idx: number) {
+    dots.forEach((d, i) => d.classList.toggle("bg-primary-green", i === idx));
+    dots.forEach((d, i) => d.classList.toggle("bg-white/40", i !== idx));
+  }
+
+  function change(next: number) {
+    current = (next + total) % total;
+    slidesEl.style.transform = `translateX(-${current * 100}%)`;
+    labelEl.textContent = (items[current] as HTMLElement).dataset.label || "";
+    setActiveDot(current);
+  }
+
+  function start() {
+    stop();
+    timer = setInterval(() => change(current + 1), INTERVAL);
+  }
+
+  function stop() {
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  function go(dir: number) {
+    stop();
+    change(current + dir);
+    start();
+  }
+
+  prevBtn.addEventListener("click", () => go(-1));
+  nextBtn.addEventListener("click", () => go(1));
+  dots.forEach((dot) =>
+    dot.addEventListener("click", () => {
+      stop();
+      change(Number(dot.dataset.index));
+      start();
+    })
+  );
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  change(0);
+  start();
+</script>

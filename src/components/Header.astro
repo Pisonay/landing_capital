@@ -1,0 +1,178 @@
+---
+import { MenuIcon, X } from "@lucide/astro";
+
+const navLinks = [
+  { href: "#espacios", label: "Espacios" },
+  { href: "#avance", label: "Avance" },
+  { href: "#tour_3d", label: "Tour 3D" },
+  { href: "#asesores", label: "Asesores" },
+];
+---
+
+<header
+  id="header"
+  class="w-full fixed px-5 sm:px-[40px] md:px-[60px] lg:px-[80px] xl:px-[140px]
+         grid place-items-center z-50 transition-all duration-300
+         ease-in-out lg:py-[20px]"
+  style="height:140px;"
+>
+  <!-- 🔹 Mobile -->
+  <div class="flex w-full items-center justify-between xl:hidden">
+    <img
+      src="/icons/icon_pisonay.svg"
+      id="logo-mobile"
+      class="h-[2.3rem] w-auto transition-all duration-300 ease-in-out"
+    />
+
+    <button
+      id="btn-menu"
+      aria-label="Abrir menú"
+      class="uppercase p-2 text-base font-bold transition-all
+             duration-300 ease-in-out cursor-pointer text-black
+             shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]"
+    >
+      <MenuIcon class="h-6 w-6 mx-auto" />
+    </button>
+  </div>
+
+  <!-- 🔹 Desktop -->
+  <div
+    class="hidden xl:flex w-full h-auto gap-4 max-w-[1900px] mx-auto items-center justify-between"
+  >
+    <!-- Logo izquierda -->
+    <a href="/" class="w-auto min-w-[280px] grid place-items-center">
+      <img
+        src="/icons/icon_pisonay.svg"
+        id="logo-left"
+        class="h-[2.3rem] w-auto transition-all duration-300 ease-in-out"
+      />
+    </a>
+
+    <!-- Navegación -->
+    <nav
+      id="labels-links"
+      class="flex flex-row gap-8 text-sm font-medium uppercase transition-all duration-300 ease-in-out"
+    >
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="border-b-2 border-transparent hover:border-current transition-all duration-300 ease-in-out px-2"
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<!-- 🔹 Panel móvil -->
+<div
+  id="mobile-panel"
+  class="fixed top-0 right-0 w-3/4 max-w-[300px] h-full bg-[#0E9B7F]
+         transform translate-x-full transition-transform duration-300
+         ease-in-out z-[70] flex flex-col p-6 shadow-2xl"
+>
+  <div class="flex justify-between items-center mb-8 text-white">
+    <h2 class="text-lg font-bold uppercase">Menú</h2>
+    <button id="btn-close" aria-label="Cerrar menú" class="hover:cursor-pointer">
+      <X class="h-6 w-6" />
+    </button>
+  </div>
+
+  <nav class="flex flex-col gap-4 text-sm font-medium text-white uppercase">
+    {navLinks.map(({ href, label }) => (
+      <a
+        href={href}
+        class="text-center border-b-2 border-transparent hover:border-current transition-all duration-300 ease-in-out pb-2"
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+</div>
+
+<!-- 🔹 Overlay -->
+<div
+  id="overlay"
+  class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out z-[60] backdrop-blur-sm"
+></div>
+
+<!-- ✅ Scripts -->
+<script>
+  const header = document.getElementById("header") as HTMLElement;
+  const labelsLinks = document.getElementById("labels-links") as HTMLElement;
+  const logoLeft = document.getElementById("logo-left") as HTMLElement;
+  const logoMobile = document.getElementById("logo-mobile") as HTMLElement;
+  const btnMenu = document.getElementById("btn-menu") as HTMLElement;
+  const btnClose = document.getElementById("btn-close") as HTMLElement;
+  const panel = document.getElementById("mobile-panel") as HTMLElement;
+  const overlay = document.getElementById("overlay") as HTMLElement;
+
+  /* --- Scroll Shrink --- */
+  window.addEventListener("scroll", () => {
+    const shrink = window.scrollY > 0;
+    header.style.height = shrink ? "80px" : "140px";
+    header.classList.toggle("bg-[#0E9B7F]", shrink);
+    header.classList.toggle("shadow-2xl", shrink);
+    labelsLinks.classList.toggle("text-white", shrink);
+    btnMenu.classList.toggle("text-white", shrink);
+    logoLeft.style.height = shrink ? "2.8rem" : "3.3rem";
+    logoMobile.style.height = shrink ? "2.2rem" : "2.6rem";
+  });
+
+  /* --- Funciones auxiliares --- */
+  const getScrollbarWidth = () => window.innerWidth - document.documentElement.clientWidth;
+
+  const lockBodyScroll = () => {
+    const scrollBarWidth = getScrollbarWidth();
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100%";
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
+    document.body.style.paddingRight = `${scrollBarWidth}px`;
+  };
+
+  const unlockBodyScroll = () => {
+    document.documentElement.style.overflow = "";
+    document.documentElement.style.height = "";
+    document.body.style.overflow = "";
+    document.body.style.height = "";
+    document.body.style.paddingRight = "";
+  };
+
+  /* --- Mobile panel --- */
+  const openPanel = () => {
+    panel.classList.remove("translate-x-full");
+    overlay.classList.remove("opacity-0", "pointer-events-none");
+    lockBodyScroll();
+  };
+
+  const closePanel = () => {
+    panel.classList.add("translate-x-full");
+    overlay.classList.add("opacity-0", "pointer-events-none");
+    unlockBodyScroll();
+  };
+
+  btnMenu.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openPanel();
+  });
+
+  btnClose.addEventListener("click", closePanel);
+  overlay.addEventListener("click", closePanel);
+
+  // Swipe para cerrar
+  let startX = 0;
+  panel.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+  panel.addEventListener("touchmove", (e) => {
+    const moveX = e.touches[0].clientX;
+    if (startX - moveX > 60) closePanel();
+  });
+
+  // Cierra al navegar (click en enlace)
+  panel.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", closePanel);
+  });
+</script>

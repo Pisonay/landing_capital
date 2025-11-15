@@ -1,0 +1,135 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-dark-magenta: #2a1f26;
+  --font-fallback:
+    'Adjusted Arial Fallback', system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI',
+    'Noto Sans', helvetica, arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-primary: 'Figtree';
+
+  --color-secondary-green: #2ba88f;
+  
+  --color-primary-green: #0e9c7f;
+
+  --color-bg-primary-green: #0e9b7f;
+
+  --color-border-primary-green: #0e9b7f;
+
+}
+
+@layer base {
+  html,
+  body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    /* Disable overscroll behavior */
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    scroll-behavior: smooth;
+  }
+
+  html {
+    scrollbar-gutter: stable;
+    background: var(--color-theme-raisin-black);
+  }
+
+  body {
+    /* background: #f19fca; */
+  }
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-ExtraBold.woff2") format("woff");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("/fonts/Figtree-VariableFont_wght.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background-color: rgba(225, 225, 225, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 25%;
+}
+
+::-webkit-scrollbar-horizontal {
+    width: 6px;
+    backdrop-filter: blur(10px);
+    border-radius: 25%;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a0;
+}
+
+html {
+  font-family: 'Figtree', var(--font-fallback);
+  /* text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; */
+}

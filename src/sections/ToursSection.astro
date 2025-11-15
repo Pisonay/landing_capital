@@ -1,0 +1,356 @@
+---
+import { X, Maximize, Home } from "@lucide/astro";
+
+const tours = [
+  {
+    id: 1,
+    name: "1 Habitación",
+    link: "https://dep-tipo7-capital.vercel.app",
+    thumb: "/images/take_tour.jpeg",
+    description: "Ideal para solteros o parejas",
+    icon: "🏠"
+  },
+  // {
+  //   id: 2,
+  //   name: "2 Habitaciones",
+  //   link: "https://recorrido-10.vercel.app",
+  //   thumb: "/images/take_tour.jpeg",
+  //   description: "Perfecto para familias pequeñas",
+  //   icon: "🏡"
+  // },
+  // {
+  //   id: 3,
+  //   name: "3 Habitaciones",
+  //   link: "https://recorrido-9.vercel.app",
+  //   thumb: "/images/take_tour.jpeg",
+  //   description: "Amplio espacio familiar",
+  //   icon: "🏘️"
+  // },
+];
+---
+
+<section
+  id="tour-3d"
+  class="relative w-full max-w-[1200px] mx-auto px-4 py-12 text-center"
+>
+  <h2 class="text-4xl md:text-5xl font-extrabold uppercase text-secondary-green mb-3 animate-fade-in">
+    Conoce tu depa con nuestro tour virtual
+  </h2>
+  <p class="text-gray-600 text-lg mb-8 animate-fade-in-delay">
+    Explora cada espacio en 360° y encuentra tu hogar ideal
+  </p>
+
+  <!-- Opciones de tours -->
+  <div
+    id="tours-grid"
+    class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8"
+  >
+    {tours.map((tour, index) => (
+      <div
+        class="tour-card relative rounded-2xl overflow-hidden group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl border-4 border-transparent"
+        data-index={index}
+        style={`animation-delay: ${index * 150}ms`}
+      >
+        {/* Imagen de fondo */}
+        <div class="relative h-80 md:h-[380px] overflow-hidden">
+          <img
+            src={tour.thumb}
+            alt={tour.name}
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          
+          {/* Overlay gradiente */}
+          <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent"></div>
+          
+          {/* Overlay hover */}
+          <div class="absolute inset-0 bg-secondary-green/0 group-hover:bg-secondary-green/20 transition-all duration-500"></div>
+        </div>
+
+        {/* Badge superior con icono */}
+        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-110">
+          <span class="text-2xl">{tour.icon}</span>
+        </div>
+
+        {/* Contenido principal */}
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-left transform transition-all duration-500">
+          {/* Título del departamento */}
+          <h3 class="text-3xl font-bold text-white mb-2 transform transition-all duration-300 group-hover:translate-y-[-4px]">
+            {tour.name}
+          </h3>
+          
+          {/* Descripción */}
+          <p class="text-white/90 text-sm mb-4 transform transition-all duration-300 opacity-80 group-hover:opacity-100">
+            {tour.description}
+          </p>
+
+          {/* Botón de acción */}
+          <div class="flex items-center gap-2 text-white font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+            <span class="text-sm uppercase tracking-wider">Ver recorrido</span>
+            <svg class="w-5 h-5 animate-bounce-right" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </div>
+        </div>
+
+        {/* Indicador de carga */}
+        <div class="loading-indicator absolute inset-0 bg-secondary-green/90 backdrop-blur-sm hidden items-center justify-center">
+          <div class="text-center">
+            <div class="loader mb-3"></div>
+            <p class="text-white font-semibold">Cargando recorrido...</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Modal fullscreen -->
+  <div
+    id="tourModal"
+    class="fixed inset-0 bg-black/95 backdrop-blur-sm hidden items-center justify-center z-100 opacity-0 transition-opacity duration-500"
+  >
+    <div class="relative w-full h-full flex flex-col">
+      <!-- Header con título -->}
+      <div class="absolute top-0 left-0 right-0 bg-linear-to-b from-black/80 to-transparent p-6 z-50">
+        <h3 id="modalTitle" class="text-white text-2xl font-bold text-center"></h3>
+      </div>
+
+      <!-- Controles -->}
+      <div class="absolute top-6 right-6 flex gap-3 z-50">
+        <button
+          id="fullscreenBtn"
+          class="bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full text-white transition-all duration-300 hover:scale-110"
+          title="Pantalla completa"
+        >
+          <Maximize class="w-6 h-6" />
+        </button>
+        <button
+          id="closeModal"
+          class="bg-white/10 hover:bg-red-500/80 backdrop-blur-md p-3 rounded-full text-white transition-all duration-300 hover:scale-110"
+          title="Cerrar"
+        >
+          <X class="w-6 h-6" />
+        </button>
+      </div>
+
+      <!-- Iframe del tour -->}
+      <iframe
+        id="tourFrame"
+        src=""
+        class="w-full h-full border-none"
+        allowfullscreen
+      ></iframe>
+
+      <!-- Loading spinner para el iframe -->}
+      <div id="iframeLoader" class="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center">
+        <div class="text-center">
+          <div class="loader-large mb-4"></div>
+          <p class="text-white text-xl font-semibold">Preparando tu recorrido virtual...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animaciones de entrada */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounceRight {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .tour-card {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-bounce-right {
+    animation: bounceRight 1.5s ease-in-out infinite;
+  }
+
+  /* Loader pequeño para las cards */
+  .loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+  }
+
+  /* Loader grande para el modal */
+  .loader-large {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Efecto de pulso en el borde al hacer hover */
+  .tour-card:hover {
+    border-color: var(--secondary-green, #10b981);
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+<script>
+  // Elementos principales
+  const tourCards = document.querySelectorAll(".tour-card") as NodeListOf<HTMLElement>;
+  const modal = document.getElementById("tourModal") as HTMLElement;
+  const frame = document.getElementById("tourFrame") as HTMLIFrameElement;
+  const closeModal = document.getElementById("closeModal") as HTMLElement;
+  const fullscreenBtn = document.getElementById("fullscreenBtn") as HTMLElement;
+  const modalTitle = document.getElementById("modalTitle") as HTMLElement;
+  const iframeLoader = document.getElementById("iframeLoader") as HTMLElement;
+
+  const tours = [
+    { url: "https://recorrido-8.vercel.app", name: "Departamento de 1 Habitación" },
+    { url: "https://recorrido-10.vercel.app", name: "Departamento de 2 Habitaciones" },
+    { url: "https://recorrido-9.vercel.app", name: "Departamento de 3 Habitaciones" },
+  ];
+
+  let currentIndex: number | null = null;
+
+  // 🔹 Muestra el indicador de carga en la card
+  function showCardLoading(index: number) {
+    const loadingIndicator = tourCards[index].querySelector(".loading-indicator") as HTMLElement;
+    if (loadingIndicator) {
+      loadingIndicator.classList.remove("hidden");
+      loadingIndicator.classList.add("flex");
+    }
+  }
+
+  // 🔹 Oculta el indicador de carga en la card
+  function hideCardLoading(index: number) {
+    const loadingIndicator = tourCards[index].querySelector(".loading-indicator") as HTMLElement;
+    if (loadingIndicator) {
+      loadingIndicator.classList.add("hidden");
+      loadingIndicator.classList.remove("flex");
+    }
+  }
+
+  // 🔹 Abre el modal con el recorrido
+  function openTour(index: number) {
+    currentIndex = index;
+    showCardLoading(index);
+
+    // Configurar modal
+    modalTitle.textContent = tours[index].name;
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    
+    // Mostrar loader del iframe
+    iframeLoader.style.display = "flex";
+    
+    // Pequeño delay para animación suave
+    setTimeout(() => {
+      modal.style.opacity = "1";
+      frame.src = tours[index].url + "?autoplay=1&t=" + Date.now();
+      document.body.style.overflow = "hidden";
+    }, 50);
+
+    // Ocultar loader del iframe cuando cargue
+    frame.onload = () => {
+      setTimeout(() => {
+        iframeLoader.style.display = "none";
+        hideCardLoading(index);
+      }, 500);
+    };
+  }
+
+  // 🔹 Cierra el modal y reinicia estado
+  function closeTour() {
+    modal.style.opacity = "0";
+    
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      frame.src = "";
+      document.body.style.overflow = "auto";
+      iframeLoader.style.display = "flex";
+      
+      if (currentIndex !== null) {
+        hideCardLoading(currentIndex);
+      }
+      currentIndex = null;
+    }, 300);
+  }
+
+  // 🔹 Pantalla completa
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      modal.requestFullscreen().catch((err) => {
+        console.log("Error al activar pantalla completa:", err);
+      });
+    } else {
+      document.exitFullscreen().catch((err) => {
+        console.log("Error al salir de pantalla completa:", err);
+      });
+    }
+  }
+
+  // 🔹 Asignar eventos a cada tarjeta
+  tourCards.forEach((card, i) => {
+    card.addEventListener("click", () => openTour(i));
+    
+    // Efecto de sonido hover (opcional, comentado por defecto)
+    // card.addEventListener("mouseenter", () => {
+    //   // Aquí podrías agregar un pequeño efecto de sonido
+    // });
+  });
+
+  closeModal.addEventListener("click", closeTour);
+  fullscreenBtn.addEventListener("click", toggleFullscreen);
+
+  // Cerrar con ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeTour();
+    }
+  });
+
+  // Prevenir cierre accidental
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeTour();
+    }
+  });
+</script>
