@@ -1,0 +1,126 @@
+---
+import { CirclePlay, MapPin, Sparkles, ShieldCheck, Banknote } from '@lucide/astro';
+
+interface Props {
+  videoId: string;
+  title?: string;
+  subtitle?: string;
+  buildingName?: string;
+}
+
+const { 
+  videoId = "Iw3fEly8hw0", 
+  title = "Descubre Tu Nuevo Hogar",
+  subtitle = "Un espacio diseñado para vivir momentos extraordinarios",
+  buildingName = "Capital"
+} = Astro.props;
+---
+
+<section id="vid" class="relative bg-[#FAFBFC] py-16 md:py-24 lg:py-32 overflow-hidden">
+  <!-- Decorative Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-green/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary-green/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-green/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Section -->
+    <div class="text-center mb-12 md:mb-16">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 bg-primary-green/10 border border-primary-green/20 rounded-full px-4 py-2 mb-6">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-green opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-green"></span>
+        </span>
+        <span class="text-primary-green text-sm font-medium tracking-wide uppercase">Tour Virtual Exclusivo</span>
+      </div>
+
+      <!-- Main Title -->
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 mb-4 leading-tight">
+        {title}
+        <span class="block text-transparent bg-clip-text bg-linear-to-r from-primary-green via-secondary-green to-primary-green">
+          {buildingName}
+        </span>
+      </h2>
+
+      <!-- Subtitle -->
+      <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        {subtitle}
+      </p>
+
+      <!-- Decorative Line -->
+      <div class="flex items-center justify-center gap-4 mt-8">
+        <div class="h-px w-16 bg-linear-to-r from-transparent to-primary-green/50"></div>
+        <div class="w-2 h-2 rotate-45 bg-primary-green"></div>
+        <div class="h-px w-16 bg-linear-to-l from-transparent to-primary-green/50"></div>
+      </div>
+    </div>
+
+    <!-- Video Container -->
+    <div class="relative max-w-5xl mx-auto">
+      <!-- Glow Effect Behind Video -->
+      <div class="absolute -inset-4 bg-linear-to-r from-primary-green/15 via-secondary-green/15 to-primary-green/15 rounded-2xl blur-2xl opacity-60"></div>
+      
+      <!-- Video Frame -->
+      <div class="relative bg-white backdrop-blur-sm rounded-2xl p-2 md:p-3 border border-slate-200 shadow-2xl shadow-slate-200/50">
+        <!-- Aspect Ratio Container -->
+        <div class="relative w-full overflow-hidden rounded-xl aspect-video">
+          <iframe
+            class="absolute inset-0 w-full h-full border-0"
+            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+            title="Video del edificio"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+
+        <!-- Bottom Info Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 px-2 pb-1">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 text-slate-500 text-sm">
+              <CirclePlay class="w-5 h-5 text-primary-green" />
+              <span>Recorrido completo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Below Video -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-12 md:mt-16 max-w-4xl mx-auto">
+      <div class="text-center p-4 rounded-xl bg-white border border-slate-100 hover:border-primary-green/30 hover:shadow-lg hover:shadow-primary-green/10 transition-all duration-300">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-primary-green/10 flex items-center justify-center">
+          <MapPin class="w-6 h-6 text-primary-green" />
+        </div>
+        <p class="text-slate-800 font-semibold">Ubicación Premium</p>
+        <p class="text-slate-500 text-sm mt-1">Zona exclusiva</p>
+      </div>
+
+      <div class="text-center p-4 rounded-xl bg-white border border-slate-100 hover:border-primary-green/30 hover:shadow-lg hover:shadow-primary-green/10 transition-all duration-300">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-primary-green/10 flex items-center justify-center">
+          <Sparkles class="w-6 h-6 text-primary-green" />
+        </div>
+        <p class="text-slate-800 font-semibold">Acabados de Lujo</p>
+        <p class="text-slate-500 text-sm mt-1">Primera calidad</p>
+      </div>
+
+      <div class="text-center p-4 rounded-xl bg-white border border-slate-100 hover:border-primary-green/30 hover:shadow-lg hover:shadow-primary-green/10 transition-all duration-300">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-primary-green/10 flex items-center justify-center">
+          <ShieldCheck class="w-6 h-6 text-primary-green" />
+        </div>
+        <p class="text-slate-800 font-semibold">Seguridad 24/7</p>
+        <p class="text-slate-500 text-sm mt-1">Vigilancia total</p>
+      </div>
+
+      <div class="text-center p-4 rounded-xl bg-white border border-slate-100 hover:border-primary-green/30 hover:shadow-lg hover:shadow-primary-green/10 transition-all duration-300">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-primary-green/10 flex items-center justify-center">
+          <Banknote class="w-6 h-6 text-primary-green" />
+        </div>
+        <p class="text-slate-800 font-semibold">Financiamiento</p>
+        <p class="text-slate-500 text-sm mt-1">Planes flexibles</p>
+      </div>
+    </div>
+  </div>
+</section>

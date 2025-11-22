@@ -2,18 +2,20 @@
 import { MenuIcon, X } from "@lucide/astro";
 
 const navLinks = [
-  { href: "#espacios", label: "Espacios" },
-  { href: "#avance", label: "Avance" },
-  { href: "#tour_3d", label: "Tour 3D" },
-  { href: "#asesores", label: "Asesores" },
+  { href: "#amenities-slider", label: "Espacios" },
+  { href: "#tour-3d", label: "Tour 3D" },
+  { href: "#proyects", label: "Proyectos" },
+  { href: "#advisors", label: "Asesores" },
+  { href: "#vid", label: "Departamentos" },
+  { href: "#map", label: "Ubicacion" },
 ];
 ---
 
 <header
   id="header"
-  class="w-full fixed px-5 sm:px-[40px] md:px-[60px] lg:px-[80px] xl:px-[140px]
+  class="w-full fixed px-5 sm:px-10 md:px-[60px] lg:px-20 xl:px-[140px]
          grid place-items-center z-50 transition-all duration-300
-         ease-in-out lg:py-[20px]"
+         ease-in-out lg:py-5"
   style="height:140px;"
 >
   <!-- 🔹 Mobile -->
@@ -53,14 +55,16 @@ const navLinks = [
       id="labels-links"
       class="flex flex-row gap-8 text-sm font-medium uppercase transition-all duration-300 ease-in-out"
     >
-      {navLinks.map(({ href, label }) => (
-        <a
-          href={href}
-          class="border-b-2 border-transparent hover:border-current transition-all duration-300 ease-in-out px-2"
-        >
-          {label}
-        </a>
-      ))}
+      {
+        navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class="border-b-2 border-transparent hover:border-current transition-all duration-300 ease-in-out px-2"
+          >
+            {label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </header>
@@ -74,20 +78,26 @@ const navLinks = [
 >
   <div class="flex justify-between items-center mb-8 text-white">
     <h2 class="text-lg font-bold uppercase">Menú</h2>
-    <button id="btn-close" aria-label="Cerrar menú" class="hover:cursor-pointer">
+    <button
+      id="btn-close"
+      aria-label="Cerrar menú"
+      class="hover:cursor-pointer"
+    >
       <X class="h-6 w-6" />
     </button>
   </div>
 
   <nav class="flex flex-col gap-4 text-sm font-medium text-white uppercase">
-    {navLinks.map(({ href, label }) => (
-      <a
-        href={href}
-        class="text-center border-b-2 border-transparent hover:border-current transition-all duration-300 ease-in-out pb-2"
-      >
-        {label}
-      </a>
-    ))}
+    {
+      navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="text-center border-b-2 border-transparent hover:border-current transition-all duration-300 ease-in-out pb-2"
+        >
+          {label}
+        </a>
+      ))
+    }
   </nav>
 </div>
 
@@ -95,7 +105,8 @@ const navLinks = [
 <div
   id="overlay"
   class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out z-[60] backdrop-blur-sm"
-></div>
+>
+</div>
 
 <!-- ✅ Scripts -->
 <script>
@@ -121,7 +132,8 @@ const navLinks = [
   });
 
   /* --- Funciones auxiliares --- */
-  const getScrollbarWidth = () => window.innerWidth - document.documentElement.clientWidth;
+  const getScrollbarWidth = () =>
+    window.innerWidth - document.documentElement.clientWidth;
 
   const lockBodyScroll = () => {
     const scrollBarWidth = getScrollbarWidth();
