@@ -27,5 +27,5 @@ export default defineConfig({
     host: true,
   },
 
-  site: 'https://www.infolavelada.com/',
+  site: 'https://www.pisonay.com/',
 })
