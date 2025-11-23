@@ -1,4 +1,5 @@
 ---
+import BrochureDownload from "@/components/BrochureDownload.astro";
 import PriceCard from "@/components/PriceCard.astro";
 import { departamentos } from "@/data/buildings";
 import { ArrowLeft, ArrowRight, PhoneCall, Download, Home, Maximize2 } from "@lucide/astro";
@@ -226,8 +227,16 @@ const filtros = [
             </a>
           </div>
         </div>
+
       </div>
     </div>
+
+
+    <!-- Variante Premium (por defecto) -->
+     <div class="flex items-center justify-center w-full">
+       <BrochureDownload />
+     </div>
+
   </div>
 
   <!-- Modal de imagen ampliada -->

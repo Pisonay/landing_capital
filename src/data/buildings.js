@@ -82,7 +82,7 @@ export const departamentos = [
   },
   {
     id: 10,
-    dormitorios: 3,
+    dormitorios: 2,
     tipo: "TIPO 6",
     areaAproximada: "53m²",
     precioDesde: "S/1,850",

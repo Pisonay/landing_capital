@@ -4,7 +4,7 @@ import { X, Maximize, Home } from "@lucide/astro";
 const tours = [
   {
     id: 1,
-    name: "Departamento Tipo 7",
+    name: "Tipo 7 - 1 Dormitorio",
     link: "https://dep-tipo7-capital.vercel.app",
     thumb: "/images/take_tour.jpeg",
     description: "Ideal para solteros o parejas",
@@ -12,20 +12,12 @@ const tours = [
   },
   {
     id: 2,
-    name: "Departamento Tipo 4",
+    name: "Tipo 4 - 3 dormitorios",
     link: "https://dep-tipo4-capital.vercel.app",
     thumb: "/images/take_tour.jpeg",
     description: "Perfecto para familias pequeñas",
     icon: "🏡"
   },
-  // {
-  //   id: 3,
-  //   name: "3 Habitaciones",
-  //   link: "https://recorrido-9.vercel.app",
-  //   thumb: "/images/take_tour.jpeg",
-  //   description: "Amplio espacio familiar",
-  //   icon: "🏘️"
-  // },
 ];
 ---
 
@@ -109,12 +101,10 @@ const tours = [
     class="fixed inset-0 bg-black/95 backdrop-blur-sm hidden items-center justify-center z-100 opacity-0 transition-opacity duration-500"
   >
     <div class="relative w-full h-full flex flex-col">
-      <!-- Header con título -->}
       <div class="absolute top-0 left-0 right-0 bg-linear-to-b from-black/80 to-transparent p-6 z-50">
         <h3 id="modalTitle" class="text-white text-2xl font-bold text-center"></h3>
       </div>
 
-      <!-- Controles -->}
       <div class="absolute top-6 right-6 flex gap-3 z-50">
         <button
           id="fullscreenBtn"
@@ -132,7 +122,7 @@ const tours = [
         </button>
       </div>
 
-      <!-- Iframe del tour -->}
+
       <iframe
         id="tourFrame"
         src=""
@@ -140,7 +130,7 @@ const tours = [
         allowfullscreen
       ></iframe>
 
-      <!-- Loading spinner para el iframe -->}
+
       <div id="iframeLoader" class="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center">
         <div class="text-center">
           <div class="loader-large mb-4"></div>
